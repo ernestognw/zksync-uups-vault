@@ -135,7 +135,7 @@ export async function fullDeploy(
     constructorArgs,
   });
 
-  if (verify)
+  if (_verify)
     await verify(hre, {
       constructorArgs,
       address,
