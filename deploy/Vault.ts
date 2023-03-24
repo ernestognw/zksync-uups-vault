@@ -5,26 +5,25 @@ const adminAddress = process.env.ADMIN_ADDRESS;
 const walletAddress = process.env.WALLET_ADDRESS;
 
 export default async (hre: HardhatRuntimeEnvironment) => {
-  const Vault = await fullDeploy(hre, {
-    name: "Vault",
+  const VaultProxiable = await fullDeploy(hre, {
+    name: "VaultProxiable",
     constructorArgs: [],
     verify: true,
   });
 
-  const VaultProxiable = await fullDeploy(hre, {
-    name: "VaultProxiable",
+  const Proxy = await fullDeploy(hre, {
+    name: "ERC1967Proxy",
     constructorArgs: [
-      Vault.address,
-      Vault.contract.interface.encodeFunctionData(
-        Vault.contract.interface.functions[
+      VaultProxiable.address,
+      VaultProxiable.contract.interface.encodeFunctionData(
+        VaultProxiable.contract.interface.functions[
           "initialize(uint256,address,address)"
         ],
         [20, adminAddress, walletAddress]
       ),
     ],
-    verify: true,
   });
 
   console.log(`Deployed VaultProxiable at ${VaultProxiable.address}`);
-  console.log(`Deployed Vault at ${Vault.address}`);
+  console.log(`Deployed Proxy at ${Proxy.address}`);
 };
