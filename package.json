@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "hardhat compile && hardhat deploy-zksync",
-    "verify": "hardhat verify"
+    "deploy": "hardhat compile && hardhat deploy-zksync"
   },
   "keywords": [],
   "author": "",

@@ -5,16 +5,9 @@ import "./Proxiable.sol";
 import "./Vault.sol";
 
 contract VaultProxiable is Vault, Proxiable {
-  function _beforeUpgrade(address newImplementation) internal virtual override onlyAdmin {
-  }
-}
+    constructor(address _logic, bytes memory _data) Proxiable(_logic, _data) {}
 
-contract VaultProxiableV2 is VaultV2, Proxiable {
-  function _beforeUpgrade(address newImplementation) internal virtual override onlyAdmin {
-  }
-}
-
-contract VaultProxiableV3 is VaultV3, Proxiable {
-  function _beforeUpgrade(address newImplementation) internal virtual override onlyAdmin {
-  }
+    function _authorizeUpgrade(
+        address newImplementation
+    ) internal virtual override onlyAdmin {}
 }

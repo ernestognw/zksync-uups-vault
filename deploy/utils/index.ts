@@ -27,6 +27,12 @@ interface FullDeployParams {
   name: string;
   constructorArgs: any[];
   fund?: boolean;
+  verify?: boolean;
+}
+
+interface VerifyParams {
+  address: string;
+  constructorArgs: any[];
 }
 
 export async function setup(
@@ -110,7 +116,7 @@ export async function estimateDeployFee({
 
 export async function fullDeploy(
   hre: HardhatRuntimeEnvironment,
-  { name, constructorArgs, fund }: FullDeployParams
+  { name, constructorArgs, fund, verify: _verify }: FullDeployParams
 ) {
   const { deployer, artifact } = await setup(hre, {
     name,
@@ -123,5 +129,25 @@ export async function fullDeploy(
     fund,
   });
 
-  return await deploy({ deployer, artifact, constructorArgs });
+  const { contract, address } = await deploy({
+    deployer,
+    artifact,
+    constructorArgs,
+  });
+
+  if (verify)
+    await verify(hre, {
+      constructorArgs,
+      address,
+    });
+
+  return { contract, address };
+}
+
+export async function verify(hre, params: VerifyParams) {
+  await hre.run("verify:verify", {
+    ...params,
+    constructorArguments: params.constructorArgs,
+  });
+  console.log(`🔵 Contract ${params.address} verified`);
 }
