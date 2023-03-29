@@ -15,8 +15,15 @@ module.exports = {
   defaultNetwork: "zkSyncTestnet",
 
   networks: {
+    zkSync: {
+      url: "https://mainnet.era.zksync.io",
+      ethNetwork: `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_PRIVATE_KEY}`,
+      zksync: true,
+      verifyURL:
+        "https://zksync2-mainnet-explorer.zksync.io/contract_verification",
+    },
     zkSyncTestnet: {
-      url: "https://zksync2-testnet.zksync.dev",
+      url: "https://testnet.era.zksync.dev",
       ethNetwork: `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_PRIVATE_KEY}`,
       zksync: true,
       verifyURL:
